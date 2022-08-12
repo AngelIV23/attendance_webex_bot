@@ -25,27 +25,34 @@ def post_webex_directMsg(access_token, message, person_email):
     response = requests.post( url = apiUrl, json = body, headers = httpHeaders )
     return response
 
-def postWebexMsg_md(access_token, message, person_email):
+def postWebexMsg_md(access_token, person_email, message):
     apiUrl = 'https://webexapis.com/v1/messages'
     httpHeaders = { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + access_token }
     body = { 'toPersonEmail': person_email, 'markdown': message }
     response = requests.post( url = apiUrl, json = body, headers = httpHeaders )
     return response.status_code
 
+def postWbx_roomMsg_md(access_token, room_id, message):
+    apiUrl = 'https://webexapis.com/v1/messages'
+    httpHeaders = { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + access_token }
+    body = { 'roomId': room_id, 'markdown': message }
+    response = requests.post( url = apiUrl, json = body, headers = httpHeaders )
+    return response.status_code
 ### CODE BELOW THIS LINE CAN AND SHOULD BE DELETED
 
 bot_cred = load_dotenv_vars()
 # print(bot_cred)
 rooms_list = list_webex_rooms(bot_cred[0])
 # print(rooms_list.status_code)
-print(rooms_list.text)
+print(json.dumps(json.loads(rooms_list.text), indent=4))
 
 webex_messages = [
     '**Warning!!!**',
     '_Warning!!!_',
     '[Danger, Will Robinson!!!](https://en.wikipedia.org/wiki/Lost_in_Space#Catchphrases)'
     ]
+room_id = json.loads(rooms_list.text)
 
 for msg in webex_messages:
     webex_user = 'angel.inglese@gmail.com'
-    crtl_response = postWebexMsg_md(bot_cred[0], msg, webex_user)
+    crtl_response = postWbx_roomMsg_md(bot_cred[0], room_id['items'][0]['id'], msg)
