@@ -72,24 +72,24 @@ bot_cred = load_dotenv_vars()
 # print(bot_cred)
 rooms_list = list_webex_rooms(bot_cred[0])
 # print(rooms_list.status_code)
-print(json.dumps(json.loads(rooms_list.text), indent=4))
+# print(json.dumps(json.loads(rooms_list.text), indent=4))
 
-webex_messages = [
-    '**Warning!!!**',
-    '_Warning!!!_',
-    '[Danger, Will Robinson!!!](https://en.wikipedia.org/wiki/Lost_in_Space#Catchphrases)'
-    ]
+# webex_messages = [
+#    '**Warning!!!**',
+#    '_Warning!!!_',
+#    '[Danger, Will Robinson!!!](https://en.wikipedia.org/wiki/Lost_in_Space#Catchphrases)'
+#     ]
 room_id = json.loads(rooms_list.text)
-filename = 'qr-code-wifi.png'
+filename = 'images/qr-code-wifi.png'
 
-for msg in webex_messages:
-    webex_user = 'angel.inglese@gmail.com'
-    postWbx_roomMsg_md(bot_cred[0], room_id['items'][0]['id'], msg)
+# for msg in webex_messages:
+#     webex_user = 'angel.inglese@gmail.com'
+#     postWbx_roomMsg_md(bot_cred[0], room_id['items'][0]['id'], msg)
     
 
 crtl_message = postFile_roomMsg(bot_cred[0], room_id['items'][0]['id'], 'This is your QR code to connect to Corp SSID', filename)
 
-print(crtl_message.status_code)
-print(crtl_message.text)
+# print(crtl_message.status_code)
+# print(crtl_message.text)
 # bot_me = webex_me(bot_cred[0])
 # print(json.dumps(json.loads(bot_me), indent=4))

@@ -1,16 +1,16 @@
-import qrcode, os
+import qrcode, os, glob
 from PIL import Image
 
 def create_qrcode(qrcode_str):
-    for image in os.listdir('.'):
-         # If is png image
-         if image.endswith(".png"):
-            im = Image.open(image)
+    for image in os.listdir("./images"):
+        # If is png image
+        if image.endswith(".png"):
+            im = Image.open('./images/' + image)
             # and is not RGBA
             if im.mode != 'RGBA':
-                im.convert("RGBA").save(f"rgb-{image}")
+                im.convert("RGBA").save(f"images/rgb-{image}")
 
-    logo_link = 'rgb-cisco-logo.png'
+    logo_link = './images/rgb-cisco-logo.png'
     logo = Image.open(logo_link)
     
     # taking base width
@@ -46,8 +46,9 @@ def create_qrcode(qrcode_str):
     QRimg.paste(logo, pos)
     
     # save the QR code generated
-    QRimg.save(f'qr-code-wifi.png', quality = 95)
-
+    QRimg.save(f'./images/qr-code-wifi.png', quality = 95)
+    for filename in glob.glob("./images/rgb-*"):
+        os.remove(filename) 
 
 
 ssid     = 'this_is_your_SSID'
